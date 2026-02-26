@@ -12,5 +12,4 @@ import java.time.LocalDateTime;
 public class ProducerGetResponse {
     private Long id;
     private String name;
-    private LocalDateTime createdAt;
 }
