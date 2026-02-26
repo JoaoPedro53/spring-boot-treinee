@@ -2,6 +2,9 @@ package developer.jota.controller;
 
 import developer.jota.domain.Anime;
 import developer.jota.domain.Producer;
+import developer.jota.mapper.ProducerMapper;
+import developer.jota.response.ProducerGetResponse;
+import developer.jota.resquest.ProducerPostRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,12 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
 @RestController
 @RequestMapping("v1/producers")
 public class ProducerController {
+    private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
 
     @GetMapping
     public List<Producer> listAllOrProducerByName(@RequestParam(required = false) String name) {
@@ -36,14 +39,14 @@ public class ProducerController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE,
-            headers = "x-api-key=1234")
-    public ResponseEntity<Producer> save(@RequestBody Producer producer, @RequestHeader HttpHeaders headers){
-        producer.setId(ThreadLocalRandom.current().nextLong(100_000));
-        Producer.getProducers().add(producer);
+            headers = "x-api-key")
+    public ResponseEntity<ProducerGetResponse> save(@RequestBody ProducerPostRequest producerPostRequest, @RequestHeader HttpHeaders headers){
 
-        var responseHeaders = new HttpHeaders();
-        responseHeaders.add("Authorization", "MY_KEY");
-        return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(producer);
+        var producer = MAPPER.toProducer(producerPostRequest);
+        Producer.getProducers().add(producer);
+        var response = MAPPER.toProducerGetRespnse(producer);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }
