@@ -1,11 +1,16 @@
 package developer.jota.mapper;
 
+import developer.jota.domain.Anime;
 import developer.jota.domain.Producer;
+import developer.jota.response.AnimeGetResponse;
 import developer.jota.response.ProducerGetResponse;
+import developer.jota.response.ProducerPostResponse;
 import developer.jota.resquest.ProducerPostRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper
 public interface ProducerMapper {
@@ -14,6 +19,9 @@ public interface ProducerMapper {
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(100_000))")
     Producer toProducer(ProducerPostRequest postRequest);
+    ProducerPostResponse toProducerPostResponse(Producer producer);
 
-    ProducerGetResponse toProducerGetRespnse(Producer producer);
+    ProducerGetResponse toProducerGetResponse(Producer producer);
+    List<ProducerGetResponse> toListProducerGetResponse(List<Producer> producers);
+
 }
