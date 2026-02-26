@@ -8,6 +8,7 @@ import developer.jota.response.AnimePostResponse;
 import developer.jota.resquest.AnimePostRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,8 @@ public class AnimeController {
         var animes = Anime.getAnimes();
         var listAnimeGetResponse = MAPPER.toListAnimeGetResponse(animes);
         if (name == null) return ResponseEntity.ok(listAnimeGetResponse);
-        var response = listAnimeGetResponse.stream().filter(anime -> anime.getName().equalsIgnoreCase(name))
+        var response = listAnimeGetResponse.stream()
+                .filter(anime -> anime.getName().equalsIgnoreCase(name))
                 .toList();
 
         return ResponseEntity.ok(response);
@@ -46,7 +48,7 @@ public class AnimeController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AnimePostResponse> save(@RequestBody AnimePostRequest request) {
         log.info("request to save anime: '{}'", request);
         var anime = MAPPER.toAnime(request);
