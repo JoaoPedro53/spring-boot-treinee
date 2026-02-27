@@ -2,7 +2,6 @@ package developer.jota.controller;
 
 import developer.jota.domain.Anime;
 import developer.jota.mapper.AnimeMapper;
-import developer.jota.mapper.ProducerMapper;
 import developer.jota.response.AnimeGetResponse;
 import developer.jota.response.AnimePostResponse;
 import developer.jota.resquest.AnimePostRequest;
@@ -11,10 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
 @RestController
@@ -43,7 +41,7 @@ public class AnimeController {
                 .filter(anime -> anime.getId().equals(ID))
                 .findFirst()
                 .map(MAPPER::toAnimeGetResponse)
-                .orElse(null);
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
 
         return ResponseEntity.ok(response);
     }
@@ -56,6 +54,19 @@ public class AnimeController {
         var response = MAPPER.toAnimePostResponse(anime);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @DeleteMapping("{ID}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long ID) {
+        log.info("Request to delete anime by id: '{}'", ID);
+
+        var animeToDelete = Anime.getAnimes().stream()
+                .filter(producer -> producer.getId().equals(ID))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
+
+        Anime.getAnimes().remove(animeToDelete);
+        return ResponseEntity.noContent().build();
     }
 
 }
