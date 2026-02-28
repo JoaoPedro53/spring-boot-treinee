@@ -1,10 +1,13 @@
 package developer.jota.controller;
 
+import developer.jota.domain.Anime;
 import developer.jota.domain.Producer;
 import developer.jota.mapper.ProducerMapper;
 import developer.jota.response.ProducerGetResponse;
 import developer.jota.response.ProducerPostResponse;
+import developer.jota.resquest.AnimePutRequest;
 import developer.jota.resquest.ProducerPostRequest;
+import developer.jota.resquest.ProducerPutRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -70,6 +73,22 @@ public class ProducerController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not Found"));
 
         Producer.getProducers().remove(producerToDelete);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody ProducerPutRequest putRequest) {
+        log.info("Request to update producer by id: '{}'", putRequest.getId());
+
+        var producerToRemove = Producer.getProducers().stream()
+                .filter(producer -> producer.getId().equals(putRequest.getId()))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not Found"));
+
+        var producerUpdate = MAPPER.toProducer(putRequest, producerToRemove.getCreatedAt());
+        Producer.getProducers().remove(producerToRemove);
+        Producer.getProducers().add(producerUpdate);
+
         return ResponseEntity.noContent().build();
     }
 

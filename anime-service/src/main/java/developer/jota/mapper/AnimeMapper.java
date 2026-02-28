@@ -4,6 +4,7 @@ import developer.jota.domain.Anime;
 import developer.jota.response.AnimeGetResponse;
 import developer.jota.response.AnimePostResponse;
 import developer.jota.resquest.AnimePostRequest;
+import developer.jota.resquest.AnimePutRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -16,6 +17,7 @@ public interface AnimeMapper {
 
     @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(100_000))")
     Anime toAnime(AnimePostRequest postRequest);
+    Anime toAnime(AnimePutRequest putRequest);
 
     AnimePostResponse toAnimePostResponse(Anime anime);
 

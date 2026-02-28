@@ -5,6 +5,7 @@ import developer.jota.mapper.AnimeMapper;
 import developer.jota.response.AnimeGetResponse;
 import developer.jota.response.AnimePostResponse;
 import developer.jota.resquest.AnimePostRequest;
+import developer.jota.resquest.AnimePutRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -66,6 +67,22 @@ public class AnimeController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
 
         Anime.getAnimes().remove(animeToDelete);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody AnimePutRequest putRequest) {
+        log.info("Request to update anime by id: '{}'", putRequest.getId());
+
+        var animeToRemove = Anime.getAnimes().stream()
+                .filter(producer -> producer.getId().equals(putRequest.getId()))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
+
+        Anime.getAnimes().remove(animeToRemove);
+        var animeUpdate = MAPPER.toAnime(putRequest);
+        Anime.getAnimes().add(animeUpdate);
+
         return ResponseEntity.noContent().build();
     }
 
