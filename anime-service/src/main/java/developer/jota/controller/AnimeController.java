@@ -10,7 +10,6 @@ import developer.jota.service.AnimeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,6 +32,8 @@ public class AnimeController {
         var listAnimeGetResponse = mapper.toListAnimeGetResponse(animes);
 
         return ResponseEntity.ok(listAnimeGetResponse);
+
+        return ResponseEntity.ok(listAnimeGetResponse);
     }
 
     @GetMapping("{id}")
@@ -44,7 +45,7 @@ public class AnimeController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public ResponseEntity<AnimePostResponse> save(@RequestBody AnimePostRequest request) {
         log.info("request to save anime: '{}'", request);
         var anime = mapper.toAnime(request);
