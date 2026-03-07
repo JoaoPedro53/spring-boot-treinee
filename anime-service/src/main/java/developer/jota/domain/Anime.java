@@ -1,9 +1,6 @@
 package developer.jota.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +9,9 @@ import java.util.List;
 @Setter
 @Builder
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Anime {
+    @EqualsAndHashCode.Include
     private Long id;
     private String name;
-    @Getter
-    private static List<Anime> animes = new ArrayList<>();
-
-    static {
-        Anime onePiece = new Anime(0L, "One Piece");
-        Anime kimetsu = new Anime(1L, "Kimetsu");
-        animes.addAll(List.of(onePiece, kimetsu));
-    }
-
 }

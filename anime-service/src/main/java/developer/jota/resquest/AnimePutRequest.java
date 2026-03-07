@@ -1,4 +1,4 @@
-package developer.jota.response;
+package developer.jota.resquest;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnimePostResponse {
+public class AnimePutRequest {
     private Long id;
     private String name;
 }
