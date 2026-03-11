@@ -3,7 +3,9 @@ package developer.jota.service;
 import developer.jota.domain.Producer;
 import developer.jota.repository.ProducerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class ProducerService {
     }
 
     public Producer findById(Long id) {
-        return repository.findById(id);
+        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not Found"));
     }
 
     public Producer save(Producer producer) {
@@ -26,12 +28,12 @@ public class ProducerService {
     }
 
     public void delete(Long id) {
-        var producer = repository.findById(id);
+        var producer = findById(id);
         repository.delete(producer);
     }
 
     public void update(Producer producerToUpdate) {
-        var producer = repository.findById(producerToUpdate.getId());
+        var producer = findById(producerToUpdate.getId());
         producerToUpdate.setCreatedAt(producer.getCreatedAt());
         repository.update(producerToUpdate);
     }

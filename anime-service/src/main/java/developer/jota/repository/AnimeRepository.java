@@ -1,7 +1,6 @@
 package developer.jota.repository;
 
 import developer.jota.domain.Anime;
-import developer.jota.domain.Producer;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;

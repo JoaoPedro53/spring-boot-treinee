@@ -1,11 +1,8 @@
 package developer.jota.controller;
 
-import developer.jota.domain.Anime;
-import developer.jota.domain.Producer;
 import developer.jota.mapper.ProducerMapper;
 import developer.jota.response.ProducerGetResponse;
 import developer.jota.response.ProducerPostResponse;
-import developer.jota.resquest.AnimePutRequest;
 import developer.jota.resquest.ProducerPostRequest;
 import developer.jota.resquest.ProducerPutRequest;
 import developer.jota.service.ProducerService;
@@ -15,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -61,8 +57,8 @@ public class ProducerController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         log.info("Request to delete producer by id: '{}'", id);
 
-       service.delete(id);
-       return ResponseEntity.noContent().build();
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping

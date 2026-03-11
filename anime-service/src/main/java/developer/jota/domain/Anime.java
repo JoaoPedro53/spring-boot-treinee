@@ -2,9 +2,6 @@ package developer.jota.domain;
 
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Setter
 @Builder

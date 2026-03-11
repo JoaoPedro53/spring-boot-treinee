@@ -1,37 +1,45 @@
 package developer.jota.repository;
 
 import developer.jota.domain.Producer;
+import external.dependency.Connection;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
+@AllArgsConstructor
+@Log4j2
 public class ProducerRepository {
-    private final static List<Producer> PRODUCERS = new ArrayList<>();
+    @Qualifier(value = "connMongoDB")
+    private final Connection connection;
+    private final ProducerData producerData;
 
     public List<Producer> findAll() {
-        return PRODUCERS;
+        return producerData.getProducers();
     }
 
     public List<Producer> findByName(String name) {
-        return PRODUCERS.stream().filter(producer -> producer.getName().equalsIgnoreCase(name)).toList();
+        log.info(connection);
+        return producerData.getProducers().stream().filter(producer -> producer.getName().equalsIgnoreCase(name)).toList();
     }
 
-    public Producer findById(Long id) {
-        return PRODUCERS.stream().filter(producer -> producer.getId().equals(id)).findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not Found"));
+    public Optional<Producer> findById(Long id) {
+        return producerData.getProducers().stream().filter(producer -> producer.getId().equals(id)).findFirst();
     }
 
     public Producer save(Producer producer) {
-        PRODUCERS.add(producer);
+        producerData.getProducers().add(producer);
         return producer;
     }
 
     public void delete(Producer producer) {
-        PRODUCERS.remove(producer);
+        producerData.getProducers().remove(producer);
     }
 
     public void update(Producer producer) {

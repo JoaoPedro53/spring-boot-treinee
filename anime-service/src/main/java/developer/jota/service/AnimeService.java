@@ -1,9 +1,7 @@
 package developer.jota.service;
 
 import developer.jota.domain.Anime;
-import developer.jota.domain.Producer;
 import developer.jota.repository.AnimeRepository;
-import developer.jota.repository.ProducerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,5 @@
 package developer.jota.controller;
 
-import developer.jota.domain.Anime;
 import developer.jota.mapper.AnimeMapper;
 import developer.jota.response.AnimeGetResponse;
 import developer.jota.response.AnimePostResponse;
@@ -13,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
