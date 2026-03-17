@@ -30,8 +30,6 @@ public class AnimeController {
         var listAnimeGetResponse = mapper.toListAnimeGetResponse(animes);
 
         return ResponseEntity.ok(listAnimeGetResponse);
-
-        return ResponseEntity.ok(listAnimeGetResponse);
     }
 
     @GetMapping("{id}")

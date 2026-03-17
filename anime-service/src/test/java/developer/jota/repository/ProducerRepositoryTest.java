@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -33,7 +34,7 @@ class ProducerRepositoryTest {
     @Test
     @DisplayName("findAll returns list with all producers")
     @Order(1)
-    void findAll_ReturnAllProducers_WhenSucessful() {
+    void findAll_ReturnAllProducers_WhenSuccessful() {
         BDDMockito.when(producerData.getProducers()).thenReturn(producersList);
         var producers = repository.findAll();
         Assertions.assertThat(producers).isNotNull().hasSameElementsAs(producers);
@@ -42,12 +43,12 @@ class ProducerRepositoryTest {
     @Test
     @DisplayName("findById return a producer with give id")
     @Order(2)
-    void findById_ReturnProducerById_WhenSucessful() {
+    void findById_ReturnProducerById_WhenSuccessful() {
         BDDMockito.when(producerData.getProducers()).thenReturn(producersList);
 
         var expectedProducer = producersList.getFirst();
-        var producers = repository.findById(expectedProducer.getId());
-        Assertions.assertThat(producers).isPresent().contains(expectedProducer);
+        var producer = repository.findById(expectedProducer.getId());
+        Assertions.assertThat(producer).isPresent().contains(expectedProducer);
     }
 
     @Test
@@ -61,14 +62,46 @@ class ProducerRepositoryTest {
     }
 
     @Test
-    @DisplayName("findByName return producer list with objects when name exists")
+    @DisplayName("save created a producer")
     @Order(4)
-    void findByName_ReturnFoundProducerInList_WhenNameIsFound() {
+    void save_CreatesProducer_WhenSuccessful() {
         BDDMockito.when(producerData.getProducers()).thenReturn(producersList);
 
-        var expectedProducer = producersList.getFirst();
-        var producers = repository.findByName(expectedProducer.getName());
-        Assertions.assertThat(producers).hasSize(1).contains(expectedProducer).isNotNull().isNotEmpty();
+        var producerToSave = Producer.builder().id(99L).name("OP studio").createdAt(LocalDateTime.now()).build();
+        var producer = repository.save(producerToSave);
+
+        Assertions.assertThat(producer).isEqualTo(producerToSave).hasNoNullFieldsOrProperties();
+
+        var ProducerSaveOptional = repository.findById(producerToSave.getId());
+        Assertions.assertThat(ProducerSaveOptional).isPresent().contains(producerToSave);
+    }
+
+    @Test
+    @DisplayName("delete removes a producer")
+    @Order(5)
+    void delete_removeProducer_WhenSuccessful() {
+        BDDMockito.when(producerData.getProducers()).thenReturn(producersList);
+
+        var removeProducer = producersList.getFirst();
+        repository.delete(removeProducer);
+        Assertions.assertThat(this.producersList).doesNotContain(removeProducer);
+    }
+
+    @Test
+    @DisplayName("update updates a producer")
+    @Order(6)
+    void update_updatesProducer_WhenSuccessful() {
+        BDDMockito.when(producerData.getProducers()).thenReturn(producersList);
+
+        var producerToUpdate = this.producersList.getFirst();
+        producerToUpdate.setName("Aniplex");
+        repository.update(producerToUpdate);
+
+        Assertions.assertThat(this.producersList).contains(producerToUpdate);
+
+        var producerUpdateOptional = repository.findById(producerToUpdate.getId());
+        Assertions.assertThat(producerUpdateOptional).isPresent();
+        Assertions.assertThat(producerUpdateOptional.get().getName()).isEqualTo(producerToUpdate.getName());
     }
 
 }

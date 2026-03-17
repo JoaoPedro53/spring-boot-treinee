@@ -1,37 +1,39 @@
 package developer.jota.repository;
 
 import developer.jota.domain.Anime;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
+@AllArgsConstructor
 public class AnimeRepository {
-    private static List<Anime> ANIMES = new ArrayList<>();
+    private final AnimeData animeData;
 
     public List<Anime> findAll() {
-        return ANIMES;
+        return animeData.getAnimes();
     }
 
     public List<Anime> findByName(String name) {
-        return ANIMES.stream().filter(anime -> anime.getName().equalsIgnoreCase(name)).toList();
+        return animeData.getAnimes().stream().filter(anime -> anime.getName().equalsIgnoreCase(name)).toList();
     }
 
-    public Anime findById(Long id) {
-        return ANIMES.stream().filter(anime -> anime.getId().equals(id)).findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
+    public Optional<Anime> findById(Long id) {
+        return animeData.getAnimes().stream().filter(anime -> anime.getId().equals(id)).findFirst();
     }
 
     public Anime save(Anime anime) {
-        ANIMES.add(anime);
+        animeData.getAnimes().add(anime);
         return anime;
     }
 
     public void delete(Anime anime) {
-        ANIMES.remove(anime);
+        animeData.getAnimes().remove(anime);
     }
 
     public void update(Anime anime) {

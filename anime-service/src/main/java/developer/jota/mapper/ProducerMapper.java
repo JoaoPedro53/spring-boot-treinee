@@ -2,6 +2,7 @@ package developer.jota.mapper;
 
 import developer.jota.domain.Producer;
 import developer.jota.response.ProducerGetResponse;
+import developer.jota.response.ProducerPostResponse;
 import developer.jota.resquest.ProducerPostRequest;
 import developer.jota.resquest.ProducerPutRequest;
 import org.mapstruct.Mapper;

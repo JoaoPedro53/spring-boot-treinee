@@ -3,7 +3,9 @@ package developer.jota.service;
 import developer.jota.domain.Anime;
 import developer.jota.repository.AnimeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class AnimeService {
     }
 
     public Anime findById(Long id) {
-        return repository.findById(id);
+        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
     }
 
     public Anime save(Anime anime) {
@@ -26,11 +28,14 @@ public class AnimeService {
     }
 
     public void delete(Long id) {
-        var anime = repository.findById(id);
+        var anime = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
         repository.delete(anime);
     }
 
     public void update(Anime animeToUpdate) {
-        repository.update(animeToUpdate);
+        var anime = repository.findById(animeToUpdate.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
+        repository.update(anime);
     }
 }
