@@ -37,7 +37,7 @@ class ProducerRepositoryTest {
     void findAll_ReturnAllProducers_WhenSuccessful() {
         BDDMockito.when(producerData.getProducers()).thenReturn(producersList);
         var producers = repository.findAll();
-        Assertions.assertThat(producers).isNotNull().hasSameElementsAs(producers);
+        Assertions.assertThat(producers).isNotNull().hasSameElementsAs(producersList);
     }
 
     @Test

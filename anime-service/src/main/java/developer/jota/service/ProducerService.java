@@ -18,7 +18,7 @@ public class ProducerService {
         return name == null ? repository.findAll() : repository.findByName(name);
     }
 
-    public Producer findById(Long id) {
+    public Producer findByIdOrThrowNotFoundException(Long id) {
         return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not Found"));
     }
 
@@ -28,12 +28,12 @@ public class ProducerService {
     }
 
     public void delete(Long id) {
-        var producer = findById(id);
+        var producer = findByIdOrThrowNotFoundException(id);
         repository.delete(producer);
     }
 
     public void update(Producer producerToUpdate) {
-        var producer = findById(producerToUpdate.getId());
+        var producer = findByIdOrThrowNotFoundException(producerToUpdate.getId());
         producerToUpdate.setCreatedAt(producer.getCreatedAt());
         repository.update(producerToUpdate);
     }

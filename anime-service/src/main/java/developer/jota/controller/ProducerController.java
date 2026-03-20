@@ -36,7 +36,7 @@ public class ProducerController {
     public ResponseEntity<ProducerGetResponse> findById(@PathVariable Long id) {
         log.info("Request to find producer by id: '{}'", id);
 
-        var producer = service.findById(id);
+        var producer = service.findByIdOrThrowNotFoundException(id);
         var producerGetResponse = mapper.toProducerGetResponse(producer);
 
         return ResponseEntity.ok(producerGetResponse);

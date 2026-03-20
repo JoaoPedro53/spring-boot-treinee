@@ -34,7 +34,7 @@ public class ProducerRepository {
     }
 
     public Producer save(Producer producer) {
-        producerData.getProducers().add(producer);
+            producerData.getProducers().add(producer);
         return producer;
     }
 
