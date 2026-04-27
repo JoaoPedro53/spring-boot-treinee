@@ -2,12 +2,13 @@ package developer.jota.repository;
 
 import developer.jota.models.User;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserRepository {
     private final UserRepositoryData repositoryData;
 
