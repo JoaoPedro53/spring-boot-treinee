@@ -1,7 +1,7 @@
 package developer.jota.controller;
 
 import developer.jota.models.User;
-import developer.jota.repository.UserRepositoryData;
+import developer.jota.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +14,10 @@ import java.util.List;
 @RequestMapping("v1/users")
 @AllArgsConstructor
 public class UserController {
-    private final UserRepositoryData repositoryData;
+    private final UserService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> listAll(){
-        return ResponseEntity.ok(repositoryData.getUSERS());
+    public ResponseEntity<List<User>> listAll() {
+        return ResponseEntity.ok(service.listAll());
     }
 }
