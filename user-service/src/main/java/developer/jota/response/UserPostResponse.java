@@ -1,4 +1,4 @@
-package developer.jota.request;
+package developer.jota.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class UserPostRequest {
+public class UserPostResponse {
     private Long id;
     private String firstName;
     private String lastName;
