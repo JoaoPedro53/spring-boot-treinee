@@ -29,4 +29,9 @@ public class UserRepository {
         repositoryData.getUSERS().remove(user);
     }
 
+    public void update(User userToUpdate){
+        delete(userToUpdate);
+        save(userToUpdate);
+    }
+
 }

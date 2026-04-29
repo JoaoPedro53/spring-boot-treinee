@@ -31,4 +31,10 @@ public class UserService {
         var user = findByIdAndReturnUserOrThrowNotFound(id);
         repository.delete(user);
     }
+
+    public User update(User user){
+        findByIdAndReturnUserOrThrowNotFound(user.getId());
+        repository.update(user);
+        return user;
+    }
 }
