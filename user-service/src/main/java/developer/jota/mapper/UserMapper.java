@@ -2,8 +2,10 @@ package developer.jota.mapper;
 
 import developer.jota.models.User;
 import developer.jota.request.UserPostRequest;
+import developer.jota.request.UserPutRequest;
 import developer.jota.response.UserGetResponse;
 import developer.jota.response.UserPostResponse;
+import developer.jota.response.UserPutResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -19,4 +21,6 @@ public interface UserMapper {
     UserGetResponse toUserGetResponse(User user);
     List<UserGetResponse> toListUserGetResponse(List<User> users);
     UserPostResponse toUserPostResponse(User user);
+    User toUser(UserPutRequest userPutRequest);
+    UserPutResponse toUserPutResponse(User user);
 }
