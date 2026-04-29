@@ -3,11 +3,12 @@ package developer.jota.controller;
 import developer.jota.mapper.UserMapper;
 import developer.jota.models.User;
 import developer.jota.request.UserPostRequest;
+import developer.jota.request.UserPutRequest;
 import developer.jota.response.UserGetResponse;
 import developer.jota.response.UserPostResponse;
+import developer.jota.response.UserPutResponse;
 import developer.jota.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +42,15 @@ public class UserController {
 
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<UserPutResponse> update(@RequestBody UserPutRequest putRequest) {
+
+        var request = mapper.toUser(putRequest);
+        var user = service.update(request);
+        var response = mapper.toUserPutResponse(user);
+
+        return ResponseEntity.ok(response);
     }
 }
