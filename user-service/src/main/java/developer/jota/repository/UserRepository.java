@@ -1,7 +1,6 @@
 package developer.jota.repository;
 
 import developer.jota.models.User;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +13,11 @@ public class UserRepository {
 
     public List<User> listAll() {
         return repositoryData.getUSERS();
+    }
+
+    public User save(User user){
+        repositoryData.getUSERS().add(user);
+        return user;
     }
 
 }

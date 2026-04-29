@@ -2,7 +2,6 @@ package developer.jota.service;
 
 import developer.jota.models.User;
 import developer.jota.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +14,9 @@ public class UserService {
 
     public List<User> listAll() {
         return repository.listAll();
+    }
+
+    public User save(User user){
+        return repository.save(user);
     }
 }
