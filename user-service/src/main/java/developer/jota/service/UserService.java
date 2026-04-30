@@ -3,6 +3,7 @@ package developer.jota.service;
 import developer.jota.models.User;
 import developer.jota.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.mapstruct.control.MappingControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,8 +15,8 @@ import java.util.List;
 public class UserService {
     private final UserRepository repository;
 
-    public List<User> listAll() {
-        return repository.listAll();
+    public List<User> listAllOrFindByFirstName(String name) {
+        return name == null ? repository.listAll() : repository.findByFirstName(name);
     }
 
     public User findByIdAndReturnUserOrThrowNotFound(Long id) {
