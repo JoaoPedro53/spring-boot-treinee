@@ -23,8 +23,8 @@ public class UserController {
     private final UserMapper mapper;
 
     @GetMapping
-    public ResponseEntity<List<UserGetResponse>> listAll() {
-        var listUserGetResponse = mapper.toListUserGetResponse(service.listAll());
+    public ResponseEntity<List<UserGetResponse>> listAllOrFindByFirstName(@RequestParam(required = false) String name) {
+        var listUserGetResponse = mapper.toListUserGetResponse(service.listAllOrFindByFirstName(name));
         return ResponseEntity.ok(listUserGetResponse);
     }
 
