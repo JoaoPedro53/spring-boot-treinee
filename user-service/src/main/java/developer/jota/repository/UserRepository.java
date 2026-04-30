@@ -16,6 +16,10 @@ public class UserRepository {
         return repositoryData.getUSERS();
     }
 
+    public List<User> findByFirstName(String name){
+        return repositoryData.getUSERS().stream().filter(user -> user.getFirstName().equalsIgnoreCase(name)).toList();
+    }
+
     public Optional<User> findById(Long id) {
         return repositoryData.getUSERS().stream().filter(user -> user.getId().equals(id)).findFirst();
     }
