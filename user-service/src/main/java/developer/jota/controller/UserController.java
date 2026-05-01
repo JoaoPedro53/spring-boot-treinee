@@ -28,6 +28,14 @@ public class UserController {
         return ResponseEntity.ok(listUserGetResponse);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<UserGetResponse> findById(@PathVariable Long id){
+        var user = service.findByIdAndReturnUserOrThrowNotFound(id);
+        var response = mapper.toUserGetResponse(user);
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserPostResponse> save(@RequestBody UserPostRequest postRequest) {
         var userToSave = mapper.toUser(postRequest);
